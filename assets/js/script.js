@@ -10,13 +10,18 @@ var createTimeblocks = function(hourStart, hourEnd) {
     var hours = hourEnd - hourStart;
     
     for(var i = 0; i < hours; i++) {
-        console.log("inside createTimeblocks for loop")
+        var sum = parseInt(i, 10) + parseInt(hourStart, 10);
         //var taskRow = $("<>")
+        if(sum < 12) {
+            var taskDiv = $("<div>")
+                .addClass("time-block")
+                .text(sum + ":00 a.m.");
+        } else {
+            var taskDiv = $("<div>")
+                .addClass("time-block")
+                .text(sum + " p.m.");
+        }
 
-        var taskDiv = $("<div>")
-            .addClass("time-block")
-            .text(i + hourStart);
-        
         $("#timeblock-container").append(taskDiv);
     }
 
