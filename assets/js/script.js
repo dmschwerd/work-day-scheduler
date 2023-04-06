@@ -39,20 +39,20 @@ var createTimeblocks = function(hourStart, hourEnd) {
         $(".new-row").append(hour);
 
         var events = $("<div>")
-            .addClass("past");
+            .addClass("past desc-div new-p");
 
         auditTask(events, sum);
-        
+        addDesc(events);
+
         $(".new-row").append(events);
-
+        
         var saveBtn = $("<button>")
-            .addClass("saveBtn");
-
+        .addClass("saveBtn");
+        
         $(".new-row").append(saveBtn);
-
+        
         $(".new-row").removeClass("new-row");
-
-
+        $(".new-p").removeClass("new-p");
     }
 
 };
@@ -70,30 +70,30 @@ var saveTasks = function() {
 // each time block is color-coded to indicate whether it is in the past, present, or future
 var auditTask = function(taskEl, hour) {
     // compare hour to current time
-    console.log(moment.toString());
     var currentHour = moment.format("ddd MMM DD YYYY[ ]" + hour + "[:00:00 GMT-0700]");
     var roundedHour = moment.startOf("hour");
 
     if(roundedHour.isSame(currentHour)) {
-        taskEl.addClass("present");
+        taskEl.addClass("present").removeClass("past");
     } else if(roundedHour.isBefore(currentHour)) {
-        taskEl.addClass("future");
+        taskEl.addClass("future").removeClass("past");
     }
-
 };
-/*
-setInterval(function() {
 
-}, 1000 * 60);
-*/
+var addDesc = function(taskEl) {
+    var desc = $("<p>")
+        .addClass("description");
+    taskEl.append(desc);
+}
 
-/* the current day is displayed at the top of the calendar
+$(".desc-div").on("click", "p", function() {
+    console.log("clicked");
+});
+
 setInterval(function() {
-    $(".currentDay").each(function(index, el) {
-        auditTask(el);
-    });
+    auditTask();
 }, 1000 * 60);
-*/
+
 var run = function() {
     currentDate();
     createTimeblocks("9", "17");
